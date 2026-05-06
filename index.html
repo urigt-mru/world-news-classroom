@@ -5,25 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>World News A to Z Classroom</title>
   <style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; color: #172033; }
-    header, main { max-width: 1100px; margin: auto; padding: 20px; }
-    .hero, .card { background: white; border-radius: 18px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 18px; }
+    :root { --blue:#1f4f9f; --dark:#172033; --muted:#607086; --bg:#f4f6f8; --card:#ffffff; --line:#d7dee8; }
+    body { margin: 0; font-family: Arial, sans-serif; background: var(--bg); color: var(--dark); }
+    header, main { max-width: 1150px; margin: auto; padding: 20px; }
+    .hero, .card { background: var(--card); border-radius: 18px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 18px; }
     h1 { margin: 0 0 8px; font-size: 34px; }
     h2 { margin-top: 0; }
+    h3 { margin-bottom: 6px; }
     .grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; }
+    .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
     iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; background: #111; }
     input, textarea, select { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #cfd6df; border-radius: 12px; margin: 7px 0; font-size: 15px; }
     textarea { min-height: 120px; resize: vertical; }
-    button { border: 0; background: #1f4f9f; color: white; padding: 12px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; }
-    button.secondary { background: #475569; }
-    nav button { background: #e2e8f0; color: #172033; margin-right: 8px; }
-    nav button.active { background: #1f4f9f; color: white; }
+    button, .buttonLink { border: 0; background: var(--blue); color: white; padding: 12px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; text-decoration: none; display: inline-block; }
+    button.secondary, .buttonLink.secondary { background: #475569; }
+    button.light { background: #e2e8f0; color: var(--dark); }
+    nav button { background: #e2e8f0; color: var(--dark); margin: 0 8px 8px 0; }
+    nav button.active { background: var(--blue); color: white; }
     .hidden { display: none; }
-    .submission { border: 1px solid #d7dee8; border-radius: 14px; padding: 14px; margin-top: 12px; background: #fbfcfe; }
-    .small { color: #607086; font-size: 13px; }
+    .submission { border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 12px; background: #fbfcfe; }
+    .small { color: var(--muted); font-size: 13px; }
+    .pill { display:inline-block; padding:5px 9px; border-radius:999px; background:#e2e8f0; font-size:12px; margin-right:6px; }
     .rubric { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .rubric div { background: #eef2f7; border-radius: 12px; padding: 12px; }
-    @media (max-width: 800px) { .grid, .rubric { grid-template-columns: 1fr; } }
+    .rubric div, .step { background: #eef2f7; border-radius: 12px; padding: 12px; }
+    .warning { background:#fff7ed; border:1px solid #fed7aa; padding:12px; border-radius:12px; }
+    .success { background:#ecfdf5; border:1px solid #bbf7d0; padding:12px; border-radius:12px; }
+    table { width:100%; border-collapse: collapse; margin-top:12px; }
+    th, td { text-align:left; border-bottom:1px solid var(--line); padding:10px; vertical-align:top; }
+    @media (max-width: 850px) { .grid, .three, .rubric { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -36,7 +45,8 @@
     </section>
     <nav>
       <button class="active" onclick="showTab('student', this)">Student View</button>
-      <button onclick="showTab('teacher', this)">Teacher Weekly Grading</button>
+      <button onclick="showTab('teacher', this)">Teacher Dashboard</button>
+      <button onclick="showTab('settings', this)">Teacher Setup</button>
       <button onclick="showTab('build', this)">Build Plan</button>
     </nav>
   </header>
@@ -47,51 +57,100 @@
         <div class="card">
           <h2>Today’s Episode</h2>
           <iframe id="episodeFrame" title="World News A to Z episode" allowfullscreen></iframe>
-          <p class="small">Demo mode: paste today’s YouTube URL below. Full version can auto-load the newest video from YouTube.</p>
-          <input id="videoUrl" placeholder="Paste today’s YouTube URL here" />
-          <button class="secondary" onclick="updateVideo()">Update Video</button>
+          <p class="small">Teacher can update the video from the setup tab. The site will remember it.</p>
         </div>
 
         <div class="card">
-          <h2>Daily Summary Submission</h2>
+          <h2>Daily Summary</h2>
+          <div class="success">
+            <strong>Directions:</strong> Choose one story from today’s episode. Write a clear summary and explain how it connects to Social Studies, History, Geography, Civics, Economics, or your own life.
+          </div>
+          <h3>Rubric /10</h3>
+          <div class="rubric">
+            <div><strong>Accuracy</strong><br>0–3</div>
+            <div><strong>Main Idea</strong><br>0–3</div>
+            <div><strong>Connection</strong><br>0–2</div>
+            <div><strong>Writing</strong><br>0–2</div>
+          </div>
+          <p></p>
+          <a id="formButton" class="buttonLink" target="_blank">Open Daily Submission Form</a>
+          <p class="small">This button should open your Google Form. Set the link in Teacher Setup.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Backup Submission Form</h2>
+        <p class="small">Use this only if the Google Form is not ready. Backup submissions save on this device only.</p>
+        <div class="three">
           <input id="studentName" placeholder="Student name" />
           <input id="classPeriod" placeholder="Class period" />
           <input id="storyTitle" placeholder="Story you are summarizing" />
-          <textarea id="summary" placeholder="Write a 4–6 sentence summary. Include who, what, where, when, why, and why it matters."></textarea>
-          <textarea id="connection" placeholder="How does this connect to Social Studies, History, Geography, Civics, or your life?"></textarea>
-          <button onclick="submitSummary()">Submit Daily Summary</button>
-          <p class="small">This demo saves in this browser. A real version saves to a class database.</p>
         </div>
+        <textarea id="summary" placeholder="Write a 4–6 sentence summary. Include who, what, where, when, why, and why it matters."></textarea>
+        <textarea id="connection" placeholder="How does this connect to Social Studies, History, Geography, Civics, Economics, or your life?"></textarea>
+        <button onclick="submitSummary()">Save Backup Submission</button>
       </div>
     </section>
 
     <section id="teacher" class="hidden">
       <div class="card">
-        <h2>Weekly Grading Queue</h2>
-        <button class="secondary" onclick="downloadCsv()">Download CSV</button>
+        <h2>Teacher Dashboard</h2>
+        <p class="small">For real class collection, grade in the Google Sheet connected to your Google Form. This dashboard grades backup submissions saved on this device.</p>
+        <div class="three">
+          <input id="filterName" placeholder="Filter by student" oninput="renderSubmissions()" />
+          <input id="filterPeriod" placeholder="Filter by period" oninput="renderSubmissions()" />
+          <select id="filterGrade" onchange="renderSubmissions()">
+            <option value="all">All submissions</option>
+            <option value="ungraded">Ungraded only</option>
+            <option value="graded">Graded only</option>
+          </select>
+        </div>
+        <p>
+          <button class="secondary" onclick="downloadCsv()">Download Backup CSV</button>
+          <button class="light" onclick="window.print()">Print Grade Report</button>
+        </p>
+        <div id="summaryStats"></div>
         <div id="submissions"></div>
+      </div>
+    </section>
+
+    <section id="settings" class="hidden">
+      <div class="card">
+        <h2>Teacher Setup</h2>
+        <div class="warning">
+          <strong>Recommended setup:</strong> Use Google Forms for student submissions so all work goes into one Google Sheet for grading.
+        </div>
+        <h3>1. Submission Form Link</h3>
+        <p class="small">Paste your Google Form link here. Students will click it from the Student View.</p>
+        <input id="googleFormUrl" placeholder="Paste Google Form link" />
+        <button onclick="saveFormLink()">Save Form Link</button>
+
+        <h3>2. Daily Video</h3>
+        <p class="small">Paste today’s YouTube episode link. Leave blank to show the official playlist.</p>
+        <input id="videoUrl" placeholder="Paste today’s YouTube URL" />
+        <button onclick="saveVideo()">Save Video</button>
+
+        <h3>3. Google Form Fields</h3>
+        <p>Create a Google Form with these questions:</p>
+        <table>
+          <tr><th>Question</th><th>Type</th></tr>
+          <tr><td>Student Name</td><td>Short answer</td></tr>
+          <tr><td>Class Period</td><td>Short answer or dropdown</td></tr>
+          <tr><td>Date</td><td>Date</td></tr>
+          <tr><td>Story Title</td><td>Short answer</td></tr>
+          <tr><td>Summary</td><td>Paragraph</td></tr>
+          <tr><td>Connection</td><td>Paragraph</td></tr>
+        </table>
       </div>
     </section>
 
     <section id="build" class="hidden">
       <div class="card">
-        <h2>School-Ready Build Plan</h2>
-        <ol>
-          <li><strong>Auto-load episode:</strong> use a small server endpoint to call the YouTube Data API each morning and return the newest video ID.</li>
-          <li><strong>Student login:</strong> use Google, Microsoft, Clever, or school SSO.</li>
-          <li><strong>Save work:</strong> store submissions in Firebase, Supabase, PostgreSQL, or Google Sheets for a simple pilot.</li>
-          <li><strong>Weekly grading:</strong> teacher dashboard with score, feedback, missing-work flags, and CSV export.</li>
-          <li><strong>Optional:</strong> connect to Google Classroom after district approval.</li>
-        </ol>
-      </div>
-      <div class="card">
-        <h2>Suggested Rubric</h2>
-        <div class="rubric">
-          <div><strong>Accuracy</strong><br>0–3 pts</div>
-          <div><strong>Main idea</strong><br>0–3 pts</div>
-          <div><strong>Class connection</strong><br>0–2 pts</div>
-          <div><strong>Writing effort</strong><br>0–2 pts</div>
-        </div>
+        <h2>Full Upgrade Plan</h2>
+        <div class="step"><strong>Now:</strong> GitHub Pages site + Google Form + Google Sheet gradebook.</div><br>
+        <div class="step"><strong>Next:</strong> Make a prefilled Google Form so date, class period, and video title can auto-fill.</div><br>
+        <div class="step"><strong>Later:</strong> Add student login with Google/Microsoft/Clever and save submissions to Firebase or Supabase.</div><br>
+        <div class="step"><strong>Best version:</strong> Teacher dashboard shows every student, missing work, weekly average, feedback, and export to gradebook.</div>
       </div>
     </section>
   </main>
@@ -109,51 +168,73 @@
       return id ? `https://www.youtube.com/embed/${id}` : url;
     }
 
-    function updateVideo() {
+    function saveFormLink() {
+      const url = document.getElementById('googleFormUrl').value.trim();
+      localStorage.setItem('wnatz_form_url', url);
+      updateFormButton();
+      alert('Form link saved.');
+    }
+
+    function saveVideo() {
       const url = document.getElementById('videoUrl').value.trim();
-      document.getElementById('episodeFrame').src = youtubeEmbedUrl(url);
+      localStorage.setItem('wnatz_video_url', url);
+      updateVideo();
+      alert('Video saved.');
     }
 
-    function getSubmissions() {
-      return JSON.parse(localStorage.getItem('wnatz_submissions') || '[]');
+    function updateVideo() {
+      const saved = localStorage.getItem('wnatz_video_url') || '';
+      document.getElementById('videoUrl').value = saved;
+      document.getElementById('episodeFrame').src = youtubeEmbedUrl(saved);
     }
 
-    function saveSubmissions(items) {
-      localStorage.setItem('wnatz_submissions', JSON.stringify(items));
+    function updateFormButton() {
+      const saved = localStorage.getItem('wnatz_form_url') || '';
+      document.getElementById('googleFormUrl').value = saved;
+      const button = document.getElementById('formButton');
+      if (saved) {
+        button.href = saved;
+        button.textContent = 'Open Daily Submission Form';
+      } else {
+        button.href = '#settings';
+        button.textContent = 'Teacher needs to add the Google Form link';
+      }
     }
+
+    function getSubmissions() { return JSON.parse(localStorage.getItem('wnatz_submissions') || '[]'); }
+    function saveSubmissions(items) { localStorage.setItem('wnatz_submissions', JSON.stringify(items)); }
 
     function submitSummary() {
       const item = {
-        id: Date.now(),
-        date: today,
+        id: Date.now(), date: today,
         student: document.getElementById('studentName').value.trim(),
         classPeriod: document.getElementById('classPeriod').value.trim(),
         storyTitle: document.getElementById('storyTitle').value.trim(),
         summary: document.getElementById('summary').value.trim(),
         connection: document.getElementById('connection').value.trim(),
-        score: '',
-        feedback: ''
+        score: '', feedback: ''
       };
-      if (!item.student || !item.storyTitle || !item.summary) {
-        alert('Please add your name, story title, and summary.');
-        return;
-      }
-      const items = [item, ...getSubmissions()];
-      saveSubmissions(items);
-      document.getElementById('storyTitle').value = '';
-      document.getElementById('summary').value = '';
-      document.getElementById('connection').value = '';
+      if (!item.student || !item.storyTitle || !item.summary) { alert('Please add name, story title, and summary.'); return; }
+      saveSubmissions([item, ...getSubmissions()]);
+      ['storyTitle','summary','connection'].forEach(id => document.getElementById(id).value = '');
       renderSubmissions();
-      alert('Submitted!');
+      alert('Backup submission saved.');
     }
 
     function renderSubmissions() {
       const box = document.getElementById('submissions');
-      const items = getSubmissions();
-      if (!items.length) {
-        box.innerHTML = '<p class="small">No submissions yet.</p>';
-        return;
-      }
+      const stats = document.getElementById('summaryStats');
+      if (!box || !stats) return;
+      const name = document.getElementById('filterName')?.value.toLowerCase() || '';
+      const period = document.getElementById('filterPeriod')?.value.toLowerCase() || '';
+      const grade = document.getElementById('filterGrade')?.value || 'all';
+      let items = getSubmissions();
+      items = items.filter(i => !name || i.student.toLowerCase().includes(name));
+      items = items.filter(i => !period || String(i.classPeriod).toLowerCase().includes(period));
+      items = items.filter(i => grade === 'all' || (grade === 'graded' ? i.score : !i.score));
+      const graded = items.filter(i => i.score).length;
+      stats.innerHTML = `<p><span class="pill">${items.length} shown</span><span class="pill">${graded} graded</span><span class="pill">${items.length - graded} ungraded</span></p>`;
+      if (!items.length) { box.innerHTML = '<p class="small">No backup submissions found.</p>'; return; }
       box.innerHTML = items.map(item => `
         <div class="submission">
           <h3>${escapeHtml(item.student)} — ${escapeHtml(item.storyTitle)}</h3>
@@ -163,8 +244,7 @@
           <input id="score-${item.id}" placeholder="Score /10" value="${escapeHtml(item.score)}" />
           <input id="feedback-${item.id}" placeholder="Feedback" value="${escapeHtml(item.feedback)}" />
           <button onclick="saveGrade(${item.id})">Save Grade</button>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
     function saveGrade(id) {
@@ -175,36 +255,27 @@
         }
         return item;
       });
-      saveSubmissions(items);
-      renderSubmissions();
+      saveSubmissions(items); renderSubmissions();
     }
 
     function downloadCsv() {
       const items = getSubmissions();
-      const headers = ['Date', 'Student', 'Class Period', 'Story Title', 'Summary', 'Connection', 'Score', 'Feedback'];
-      const rows = items.map(i => [i.date, i.student, i.classPeriod, i.storyTitle, i.summary, i.connection, i.score, i.feedback]);
+      const headers = ['Date','Student','Class Period','Story Title','Summary','Connection','Score','Feedback'];
+      const rows = items.map(i => [i.date,i.student,i.classPeriod,i.storyTitle,i.summary,i.connection,i.score,i.feedback]);
       const csv = [headers, ...rows].map(row => row.map(cell => `"${String(cell || '').replaceAll('"', '""')}"`).join(',')).join('\n');
       const blob = new Blob([csv], { type: 'text/csv' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = `world-news-submissions-${today}.csv`;
-      a.click();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `world-news-backup-submissions-${today}.csv`; a.click();
     }
 
     function showTab(tabId, button) {
       document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
       document.getElementById(tabId).classList.remove('hidden');
       document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-      button.classList.add('active');
-      renderSubmissions();
+      button.classList.add('active'); renderSubmissions();
     }
 
-    function escapeHtml(text) {
-      return String(text || '').replace(/[&<>'"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'}[c]));
-    }
-
-    updateVideo();
-    renderSubmissions();
+    function escapeHtml(text) { return String(text || '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+    updateVideo(); updateFormButton(); renderSubmissions();
   </script>
 </body>
 </html>
