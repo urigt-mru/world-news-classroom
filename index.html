@@ -88,7 +88,7 @@
 
     iframe.video {
       width: 100%;
-      height: 390px;
+      height: 340px;
       border: 0;
       border-radius: 14px;
       background: #111;
@@ -96,7 +96,7 @@
 
     iframe.form {
       width: 100%;
-      height: 720px;
+      height: 620px;
       border: 0;
       border-radius: 14px;
       background: #ffffff;
@@ -123,6 +123,55 @@
       color: var(--white);
       border-radius: 12px;
       padding: 14px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .focus-question {
+      background: var(--school-black);
+      color: var(--white);
+      border-left: 8px solid var(--school-orange);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .checklist div {
+      background: #fff7ed;
+      border: 1px solid #fdba74;
+      border-radius: 12px;
+      padding: 12px;
+      font-weight: bold;
+    }
+
+    .example-response {
+      background: #f9fafb;
+      border: 1px solid var(--school-border);
+      border-left: 6px solid var(--school-orange);
+      border-radius: 14px;
+      padding: 16px;
+      margin-top: 12px;
+    }
+
+    .progress-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .progress-grid div {
+      background: #eef2f7;
+      border: 1px solid var(--school-border);
+      border-radius: 12px;
+      padding: 12px;
       text-align: center;
       font-weight: bold;
     }
@@ -155,16 +204,16 @@
     }
 
     @media (max-width: 900px) {
-      .grid, .rubric, .summary-list {
+      .grid, .rubric, .summary-list, .checklist, .progress-grid {
         grid-template-columns: 1fr;
       }
 
       iframe.video {
-        height: 260px;
+        height: 240px;
       }
 
       iframe.form {
-        height: 850px;
+        height: 820px;
       }
     }
   </style>
@@ -184,6 +233,10 @@
     </header>
 
     <section id="episode" class="card">
+      <div class="focus-question">
+        <h2 style="border-left:0;padding-left:0;margin-bottom:6px;">Today’s Focus Question</h2>
+        <p style="margin:0;">Which story from today’s episode has the greatest impact on people, communities, or the world? Explain why in your summary.</p>
+      </div>
       <h2>Today’s Episode & Submission</h2>
       <div class="grid">
         <div>
@@ -219,6 +272,7 @@
             <strong>Choose one story from today’s episode.</strong><br>
             Write a clear summary that explains the important information from the story. Your response should be accurate, complete, and written in formal academic language.
           </div>
+
           <h3>Good Summaries Include the 5 Ws</h3>
           <div class="summary-list">
             <div>Who</div>
@@ -227,15 +281,44 @@
             <div>When</div>
             <div>Why</div>
           </div>
+
+          <h3>Before You Submit</h3>
+          <div class="checklist">
+            <div>✓ I included the 5 Ws.</div>
+            <div>✓ I explained why the story matters.</div>
+            <div>✓ I used complete sentences.</div>
+            <div>✓ I checked spelling and capitalization.</div>
+          </div>
         </div>
+
         <div>
-          <h2>Rubric /10</h2>
+          <h2>Model Response</h2>
+          <div class="example-response">
+            <strong>Example:</strong> One story from today’s episode explained how a government decision affected people in a specific community. The report described who was involved, what happened, where it took place, and why the issue matters. This story is important because it shows how decisions made by leaders can affect everyday life. It connects to Social Studies because we study how citizens, governments, and communities respond to challenges.
+          </div>
+
+          <h2 style="margin-top:20px;">Rubric /10</h2>
           <div class="rubric">
             <div><strong>Accuracy</strong><br>0–3 points<br><span class="small">Information is correct and specific.</span></div>
             <div><strong>Main Idea</strong><br>0–3 points<br><span class="small">The central idea is clearly explained.</span></div>
             <div><strong>Connection</strong><br>0–2 points<br><span class="small">Response connects to class content or the real world.</span></div>
             <div><strong>Writing</strong><br>0–2 points<br><span class="small">Writing is complete, formal, and easy to understand.</span></div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="weekly-progress" class="card">
+      <h2>Weekly Progress Check</h2>
+      <p>Before the week ends, make sure you have completed each daily summary.</p>
+      <div class="progress-grid">
+        <div>Monday</div>
+        <div>Tuesday</div>
+        <div>Wednesday</div>
+        <div>Thursday</div>
+        <div>Friday</div>
+      </div>
+    </section>
 
     <section id="form" class="card">
       <h2>Submit Today’s Summary</h2>
