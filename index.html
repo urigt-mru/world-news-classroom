@@ -73,7 +73,10 @@
             <div><strong>Writing</strong><br>0–2</div>
           </div>
           <p></p>
-          <a id="formButton" class="buttonLink" target="_blank">Open Daily Submission Form</a>
+          <div id="formEmbedWrap">
+  <iframe id="formEmbed" title="Daily Submission Form" style="width:100%; height:640px; border:0; border-radius:14px; background:#fff"></iframe>
+</div>
+<p class="small">If the form doesn’t load, use this link: <a id="formFallback" target="_blank">Open form in a new tab</a></p>
           <p class="small">This button should open your Google Form. Set the link in Teacher Setup.</p>
         </div>
       </div>
@@ -189,13 +192,17 @@
     }
 
     function updateFormButton() {
-      const saved = 'https://forms.gle/9Mtf7xLYKeqp9ov98';
-      document.getElementById('googleFormUrl').value = saved;
-      const button = document.getElementById('formButton');
-      if (saved) {
-        button.href = saved;
-        button.textContent = 'Open Daily Submission Form';
-      } else {
+  const saved = localStorage.getItem('wnatz_form_url') || 'https://forms.gle/9Mtf7xLYKeqp9ov98';
+  document.getElementById('googleFormUrl').value = saved;
+  const iframe = document.getElementById('formEmbed');
+  const fallback = document.getElementById('formFallback');
+  let embedUrl = saved;
+  if (saved.includes('docs.google.com/forms')) {
+    embedUrl = saved.replace(/viewform.*/, 'viewform?embedded=true');
+  }
+  iframe.src = embedUrl;
+  fallback.href = saved;
+} else {
         button.href = '#settings';
         button.textContent = 'Teacher needs to add the Google Form link';
       }
