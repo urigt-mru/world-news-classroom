@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>World News A to Z Classroom</title>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background: #f4f6f8; color: #172033; }
+    header, main { max-width: 1100px; margin: auto; padding: 20px; }
+    .hero, .card { background: white; border-radius: 18px; padding: 22px; box-shadow: 0 2px 10px rgba(0,0,0,.08); margin-bottom: 18px; }
+    h1 { margin: 0 0 8px; font-size: 34px; }
+    h2 { margin-top: 0; }
+    .grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 18px; }
+    iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 14px; background: #111; }
+    input, textarea, select { width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid #cfd6df; border-radius: 12px; margin: 7px 0; font-size: 15px; }
+    textarea { min-height: 120px; resize: vertical; }
+    button { border: 0; background: #1f4f9f; color: white; padding: 12px 16px; border-radius: 12px; font-size: 15px; cursor: pointer; }
+    button.secondary { background: #475569; }
+    nav button { background: #e2e8f0; color: #172033; margin-right: 8px; }
+    nav button.active { background: #1f4f9f; color: white; }
+    .hidden { display: none; }
+    .submission { border: 1px solid #d7dee8; border-radius: 14px; padding: 14px; margin-top: 12px; background: #fbfcfe; }
+    .small { color: #607086; font-size: 13px; }
+    .rubric { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .rubric div { background: #eef2f7; border-radius: 12px; padding: 12px; }
+    @media (max-width: 800px) { .grid, .rubric { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <section class="hero">
+      <p class="small">Daily current events notebook</p>
+      <h1>World News A to Z Classroom</h1>
+      <p>Students watch the newest episode, write a short summary of one story, connect it to class, and submit it for weekly grading.</p>
+      <p><strong>Today:</strong> <span id="today"></span></p>
+    </section>
+    <nav>
+      <button class="active" onclick="showTab('student', this)">Student View</button>
+      <button onclick="showTab('teacher', this)">Teacher Weekly Grading</button>
+      <button onclick="showTab('build', this)">Build Plan</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="student">
+      <div class="grid">
+        <div class="card">
+          <h2>Today’s Episode</h2>
+          <iframe id="episodeFrame" title="World News A to Z episode" allowfullscreen></iframe>
+          <p class="small">Demo mode: paste today’s YouTube URL below. Full version can auto-load the newest video from YouTube.</p>
+          <input id="videoUrl" placeholder="Paste today’s YouTube URL here" />
+          <button class="secondary" onclick="updateVideo()">Update Video</button>
+        </div>
+
+        <div class="card">
+          <h2>Daily Summary Submission</h2>
+          <input id="studentName" placeholder="Student name" />
+          <input id="classPeriod" placeholder="Class period" />
+          <input id="storyTitle" placeholder="Story you are summarizing" />
+          <textarea id="summary" placeholder="Write a 4–6 sentence summary. Include who, what, where, when, why, and why it matters."></textarea>
+          <textarea id="connection" placeholder="How does this connect to Social Studies, History, Geography, Civics, or your life?"></textarea>
+          <button onclick="submitSummary()">Submit Daily Summary</button>
+          <p class="small">This demo saves in this browser. A real version saves to a class database.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="teacher" class="hidden">
+      <div class="card">
+        <h2>Weekly Grading Queue</h2>
+        <button class="secondary" onclick="downloadCsv()">Download CSV</button>
+        <div id="submissions"></div>
+      </div>
+    </section>
+
+    <section id="build" class="hidden">
+      <div class="card">
+        <h2>School-Ready Build Plan</h2>
+        <ol>
+          <li><strong>Auto-load episode:</strong> use a small server endpoint to call the YouTube Data API each morning and return the newest video ID.</li>
+          <li><strong>Student login:</strong> use Google, Microsoft, Clever, or school SSO.</li>
+          <li><strong>Save work:</strong> store submissions in Firebase, Supabase, PostgreSQL, or Google Sheets for a simple pilot.</li>
+          <li><strong>Weekly grading:</strong> teacher dashboard with score, feedback, missing-work flags, and CSV export.</li>
+          <li><strong>Optional:</strong> connect to Google Classroom after district approval.</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h2>Suggested Rubric</h2>
+        <div class="rubric">
+          <div><strong>Accuracy</strong><br>0–3 pts</div>
+          <div><strong>Main idea</strong><br>0–3 pts</div>
+          <div><strong>Class connection</strong><br>0–2 pts</div>
+          <div><strong>Writing effort</strong><br>0–2 pts</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const today = new Date().toISOString().slice(0, 10);
+    document.getElementById('today').textContent = today;
+
+    function youtubeEmbedUrl(url) {
+      if (!url) return 'https://www.youtube.com/embed/videoseries?list=PL0VcM838mafF6X7YR2WI4PwEKmX1Mw_GX';
+      const watch = url.match(/[?&]v=([^&]+)/);
+      const short = url.match(/youtu\.be\/([^?&]+)/);
+      const embed = url.match(/embed\/([^?&]+)/);
+      const id = watch?.[1] || short?.[1] || embed?.[1];
+      return id ? `https://www.youtube.com/embed/${id}` : url;
+    }
+
+    function updateVideo() {
+      const url = document.getElementById('videoUrl').value.trim();
+      document.getElementById('episodeFrame').src = youtubeEmbedUrl(url);
+    }
+
+    function getSubmissions() {
+      return JSON.parse(localStorage.getItem('wnatz_submissions') || '[]');
+    }
+
+    function saveSubmissions(items) {
+      localStorage.setItem('wnatz_submissions', JSON.stringify(items));
+    }
+
+    function submitSummary() {
+      const item = {
+        id: Date.now(),
+        date: today,
+        student: document.getElementById('studentName').value.trim(),
+        classPeriod: document.getElementById('classPeriod').value.trim(),
+        storyTitle: document.getElementById('storyTitle').value.trim(),
+        summary: document.getElementById('summary').value.trim(),
+        connection: document.getElementById('connection').value.trim(),
+        score: '',
+        feedback: ''
+      };
+      if (!item.student || !item.storyTitle || !item.summary) {
+        alert('Please add your name, story title, and summary.');
+        return;
+      }
+      const items = [item, ...getSubmissions()];
+      saveSubmissions(items);
+      document.getElementById('storyTitle').value = '';
+      document.getElementById('summary').value = '';
+      document.getElementById('connection').value = '';
+      renderSubmissions();
+      alert('Submitted!');
+    }
+
+    function renderSubmissions() {
+      const box = document.getElementById('submissions');
+      const items = getSubmissions();
+      if (!items.length) {
+        box.innerHTML = '<p class="small">No submissions yet.</p>';
+        return;
+      }
+      box.innerHTML = items.map(item => `
+        <div class="submission">
+          <h3>${escapeHtml(item.student)} — ${escapeHtml(item.storyTitle)}</h3>
+          <p class="small">${escapeHtml(item.date)} · Period ${escapeHtml(item.classPeriod || '')}</p>
+          <p><strong>Summary:</strong> ${escapeHtml(item.summary)}</p>
+          <p><strong>Connection:</strong> ${escapeHtml(item.connection || 'No connection written.')}</p>
+          <input id="score-${item.id}" placeholder="Score /10" value="${escapeHtml(item.score)}" />
+          <input id="feedback-${item.id}" placeholder="Feedback" value="${escapeHtml(item.feedback)}" />
+          <button onclick="saveGrade(${item.id})">Save Grade</button>
+        </div>
+      `).join('');
+    }
+
+    function saveGrade(id) {
+      const items = getSubmissions().map(item => {
+        if (item.id === id) {
+          item.score = document.getElementById(`score-${id}`).value;
+          item.feedback = document.getElementById(`feedback-${id}`).value;
+        }
+        return item;
+      });
+      saveSubmissions(items);
+      renderSubmissions();
+    }
+
+    function downloadCsv() {
+      const items = getSubmissions();
+      const headers = ['Date', 'Student', 'Class Period', 'Story Title', 'Summary', 'Connection', 'Score', 'Feedback'];
+      const rows = items.map(i => [i.date, i.student, i.classPeriod, i.storyTitle, i.summary, i.connection, i.score, i.feedback]);
+      const csv = [headers, ...rows].map(row => row.map(cell => `"${String(cell || '').replaceAll('"', '""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `world-news-submissions-${today}.csv`;
+      a.click();
+    }
+
+    function showTab(tabId, button) {
+      document.querySelectorAll('main > section').forEach(s => s.classList.add('hidden'));
+      document.getElementById(tabId).classList.remove('hidden');
+      document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+      button.classList.add('active');
+      renderSubmissions();
+    }
+
+    function escapeHtml(text) {
+      return String(text || '').replace(/[&<>'"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', "'":'&#39;', '"':'&quot;'}[c]));
+    }
+
+    updateVideo();
+    renderSubmissions();
+  </script>
+</body>
+</html>
