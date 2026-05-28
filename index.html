@@ -1,410 +1,788 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>World News A to Z Classroom</title>
-  <style>
-    :root {
-      --orange: #f97316;
-      --black: #111827;
-      --gray: #f3f4f6;
-      --light-gray: #e5e7eb;
-      --text-gray: #4b5563;
-      --white: #ffffff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌈 Mr. Urig's Morning Meeting Sheet! ☀️</title>
+    <!-- Friendly, rounded kid-friendly fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Confetti Library for the celebration effect -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    * {
-      box-sizing: border-box;
-    }
+    <style>
+        :root {
+            --bg-color: #e0f7fa;
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --yellow-color: #ffe66d;
+            --purple-color: #a55eea;
+            --orange-color: #ff9f43;
+            --text-color: #2c3e50;
+        }
 
-    html {
-      scroll-behavior: smooth;
-    }
+        * {
+            box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
 
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--gray);
-      color: var(--black);
-      line-height: 1.5;
-    }
+        body {
+            background: linear-gradient(180deg, #b3e5fc 0%, #e0f7fa 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .container {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 20px;
-    }
+        /* --- COMBINED SINGLE-LINE LOGO STYLING --- */
+        .logo-header {
+            font-size: 2.6rem;
+            font-weight: 700;
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 35px;
+            color: #ff4757;
+            text-shadow: 3px 3px 0px #fff, -3px -3px 0px #fff, 3px -3px 0px #fff, -3px 3px 0px #fff, 6px 6px 0px #ff9f43;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            animation: gentleFloat 3s ease-in-out infinite alternate;
+        }
 
-    header {
-      background: var(--black);
-      color: var(--white);
-      text-align: center;
-      padding: 34px 24px;
-      border-bottom: 8px solid var(--orange);
-      border-radius: 0 0 18px 18px;
-      margin-bottom: 22px;
-    }
+        @keyframes gentleFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-8px); }
+        }
 
-    header p {
-      margin: 8px auto 0;
-      max-width: 760px;
-      color: #e5e7eb;
-    }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            position: relative;
+            z-index: 1;
+        }
 
-    .eyebrow {
-      color: #fed7aa;
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 8px;
-    }
+        /* Cards style for sections */
+        .section-card {
+            background: white;
+            border-radius: 25px;
+            padding: 25px;
+            box-shadow: 0 10px 0px rgba(0,0,0,0.05);
+            border: 4px solid #fff;
+            transition: transform 0.2s;
+        }
 
-    h1 {
-      margin: 0;
-      font-size: 40px;
-      line-height: 1.1;
-    }
+        #formFields .section-card:nth-child(1) { border-color: var(--primary-color); }
+        #formFields .section-card:nth-child(2) { border-color: var(--orange-color); }
+        #formFields .section-card:nth-child(3) { border-color: var(--yellow-color); }
+        #formFields .section-card:nth-child(4) { border-color: var(--secondary-color); }
+        #formFields .section-card:nth-child(5) { border-color: var(--purple-color); }
 
-    h2 {
-      margin: 0 0 14px;
-      font-size: 23px;
-    }
+        .section-title {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    h3 {
-      margin: 20px 0 8px;
-      font-size: 18px;
-    }
+        /* Grid setups for buttons */
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 110px));
+            gap: 12px;
+            justify-content: center;
+        }
 
-    nav {
-      margin-top: 20px;
-    }
+        .selectable-btn {
+            background: #f1f2f6;
+            border: 3px solid #ced6e0;
+            border-radius: 18px;
+            padding: 12px 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
 
-    nav a,
-    .button {
-      display: inline-block;
-      background: var(--orange);
-      color: var(--black);
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 14px;
-      border-radius: 10px;
-      margin: 4px;
-    }
+        .selectable-btn:hover { transform: scale(1.05); }
 
-    .button.dark {
-      background: var(--black);
-      color: var(--white);
-    }
+        .selectable-btn.active {
+            transform: scale(1.1) rotate(-2deg);
+            color: white;
+            box-shadow: 0 6px 0px rgba(0,0,0,0.2);
+        }
 
-    .card {
-      background: var(--white);
-      border: 1px solid var(--light-gray);
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
+        /* Custom color states for selected choices */
+        .day-grid .selectable-btn.active { background-color: var(--primary-color); border-color: #ff4757; }
+        .month-grid .selectable-btn.active { background-color: var(--orange-color); border-color: #e67e22; }
+        .weather-grid .selectable-btn.active { background-color: #2980b9; border-color: #1f6391; }
+        .feeling-grid .selectable-btn.active { background-color: var(--purple-color); border-color: #8e44ad; }
 
-    .section-title {
-      border-left: 6px solid var(--orange);
-      padding-left: 10px;
-    }
+        /* Input Styling */
+        .input-row {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-    .workflow {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 18px;
-    }
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
 
-    .workflow div {
-      background: #1f2937;
-      color: var(--white);
-      border-radius: 12px;
-      padding: 12px;
-      font-weight: bold;
-      text-align: center;
-    }
+        .input-group label {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
 
-    .workflow span {
-      display: inline-block;
-      background: var(--orange);
-      color: var(--black);
-      width: 26px;
-      height: 26px;
-      line-height: 26px;
-      border-radius: 50%;
-      margin-right: 6px;
-    }
+        input[type="text"], input[type="number"], input[type="time"] {
+            padding: 12px 20px;
+            font-size: 1.2rem;
+            border: 3px solid #ced6e0;
+            border-radius: 15px;
+            outline: none;
+            background: #f8f9fa;
+            transition: border-color 0.2s;
+        }
 
-    .focus-box {
-      background: #fff7ed;
-      border: 1px solid #fdba74;
-      border-left: 6px solid var(--orange);
-      border-radius: 14px;
-      padding: 16px;
-      margin-bottom: 20px;
-    }
+        input[type="text"]:focus, input[type="number"]:focus, input[type="time"]:focus {
+            border-color: var(--secondary-color);
+            background: white;
+        }
 
-    .main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
+        .emoji-large {
+            font-size: 2.2rem;
+            display: block;
+        }
 
-    .panel {
-      border: 1px solid var(--light-gray);
-      border-radius: 14px;
-      overflow: hidden;
-      background: var(--white);
-    }
+        /* Therapy Row Design */
+        .therapy-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 20px;
+            background: #f5f6fa;
+            border-radius: 15px;
+            margin-bottom: 10px;
+            border: 2px solid #eaedd0;
+        }
 
-    .panel-title {
-      background: var(--black);
-      color: var(--white);
-      padding: 12px 14px;
-      font-weight: bold;
-      border-bottom: 5px solid var(--orange);
-    }
+        .therapy-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
 
-    .panel-body {
-      padding: 14px;
-    }
+        .therapy-checkbox {
+            width: 28px;
+            height: 28px;
+            cursor: pointer;
+            accent-color: var(--purple-color);
+        }
 
-    iframe.video {
-      width: 100%;
-      height: 335px;
-      border: 0;
-      border-radius: 12px;
-      background: #000;
-    }
+        /* Giant Submit Button */
+        .submit-container {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 40px;
+        }
 
-    iframe.form {
-      width: 100%;
-      height: 620px;
-      border: 1px solid var(--light-gray);
-      border-radius: 12px;
-      background: var(--white);
-    }
+        .finish-btn {
+            background: #2ed573;
+            color: white;
+            font-size: 2rem;
+            padding: 20px 50px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 0 #26af5f;
+            transition: all 0.1s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+        }
 
-    .directions {
-      background: #f9fafb;
-      border: 1px solid var(--light-gray);
-      border-radius: 14px;
-      padding: 16px;
-    }
+        .finish-btn:hover { transform: translateY(-4px); box-shadow: 0 14px 0 #26af5f; }
+        .finish-btn:active { transform: translateY(6px); box-shadow: 0 4px 0 #26af5f; }
 
-    .five-ws,
-    .rubric,
-    .checklist,
-    .progress {
-      display: grid;
-      gap: 10px;
-      margin-top: 10px;
-    }
+        /* Overlay Pop-up style */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .five-ws {
-      grid-template-columns: repeat(5, 1fr);
-    }
+        .popup {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            text-align: center;
+            border: 8px solid var(--yellow-color);
+            max-width: 500px;
+            width: 90%;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
 
-    .rubric {
-      grid-template-columns: repeat(4, 1fr);
-    }
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
 
-    .checklist {
-      grid-template-columns: repeat(2, 1fr);
-    }
+        .popup h2 { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 15px; }
+        .popup p { font-size: 1.4rem; margin-bottom: 25px; }
+        .close-btn { background: var(--secondary-color); color: white; border: none; padding: 10px 30px; font-size: 1.2rem; border-radius: 15px; cursor: pointer; }
 
-    .progress {
-      grid-template-columns: repeat(5, 1fr);
-    }
+        /* --- PAINT TOOL REWARD STYLING --- */
+        .paint-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 20px;
+            border: 2px solid #e2e8f0;
+        }
 
-    .five-ws div,
-    .rubric div,
-    .checklist div,
-    .progress div {
-      background: #f9fafb;
-      border: 1px solid var(--light-gray);
-      border-radius: 12px;
-      padding: 12px;
-    }
+        .color-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: transform 0.15s ease;
+        }
+        .color-circle:hover, .size-btn:hover { transform: scale(1.15); }
+        .color-circle.active-tool, .size-btn.active-tool {
+            transform: scale(1.2);
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 2px #fff, 0 4px 10px rgba(0,0,0,0.3);
+        }
 
-    .five-ws div {
-      text-align: center;
-      font-weight: bold;
-      border-top: 5px solid var(--orange);
-    }
+        .size-btn {
+            background: #fff;
+            border: 3px solid #ced6e0;
+            padding: 6px 12px;
+            font-size: 0.95rem;
+            font-weight: bold;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.15s;
+        }
 
-    .rubric div {
-      border-top: 5px solid var(--orange);
-    }
+        .paint-canvas-container {
+            width: 100%;
+            background: #ffffff;
+            border: 4px dashed #cbd5e1;
+            border-radius: 20px;
+            overflow: hidden;
+            touch-action: none; /* Prevents scrolling while painting on touch monitors */
+        }
 
-    .checklist div {
-      background: #fff7ed;
-    }
+        #paintCanvas {
+            display: block;
+            background: #ffffff;
+            cursor: crosshair;
+            width: 100%;
+        }
 
-    .progress div {
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .model {
-      background: #f9fafb;
-      border: 1px solid var(--light-gray);
-      border-left: 6px solid var(--orange);
-      border-radius: 14px;
-      padding: 16px;
-    }
-
-    .small {
-      color: var(--text-gray);
-      font-size: 14px;
-    }
-
-    @media (max-width: 900px) {
-      h1 {
-        font-size: 32px;
-      }
-
-      .main-grid,
-      .workflow,
-      .five-ws,
-      .rubric,
-      .checklist,
-      .progress {
-        grid-template-columns: 1fr;
-      }
-
-      iframe.video {
-        height: 240px;
-      }
-
-      iframe.form {
-        height: 820px;
-      }
-    }
-  </style>
+        /* Teacher View styles */
+        .teacher-trigger-box {
+            margin-top: 50px;
+            width: 100%;
+            text-align: center;
+        }
+        .teacher-toggle-btn {
+            background: none;
+            border: none;
+            color: #7f8c8d;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: underline;
+        }
+        .teacher-dashboard {
+            display: none;
+            background: #fff;
+            width: 100%;
+            border-radius: 20px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 4px dashed #7f8c8d;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .teacher-dashboard h3 { margin-bottom: 15px; color: #2c3e50; font-size: 1.8rem; display: flex; justify-content: space-between; align-items: center;}
+        .teacher-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+        .teacher-table th, .teacher-table td {
+            border: 2px solid #bdc3c7;
+            padding: 10px;
+            text-align: left;
+        }
+        .teacher-table th { background: #f2f2f2; }
+        .dashboard-actions button {
+            padding: 8px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 10px;
+            border: none;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .btn-clear { background: #ff4757; color: white;}
+        .btn-print { background: #3498db; color: white;}
+    </style>
 </head>
 <body>
-  <header>
-    <div class="eyebrow">Daily Current Events Reflection</div>
-    <h1>World News A to Z Classroom</h1>
-    <p>Watch the daily episode, choose one story, and submit a clear academic summary using accurate details.</p>
-    <nav>
-      <a href="#watch">Watch & Submit</a>
-      <a href="#directions">Directions</a>
-      <a href="#progress">Weekly Progress</a>
-      <a href="#teacher">Teacher Notes</a>
-    </nav>
-    <div class="workflow">
-      <div><span>1</span>Watch</div>
-      <div><span>2</span>Choose</div>
-      <div><span>3</span>Write</div>
-      <div><span>4</span>Submit</div>
+
+    <div class="container" id="studentFormContainer">
+
+        <!-- COMBINED TEXT LOGO HEADER -->
+        <h1 class="logo-header">🏫 Mr. Urig's Morning Meeting Sheet! 🦁</h1>
+        
+        <!-- WRAPPER FOR SUBMISSION BLOCKS -->
+        <div id="formFields">
+            
+            <!-- SECTION 1: NAME -->
+            <div class="section-card">
+                <h2 class="section-title">👋 1. My Name Is...</h2>
+                <div class="input-row">
+                    <div class="input-group">
+                        <label>First Name</label>
+                        <input type="text" id="firstName" placeholder="Type here... ✏️">
+                    </div>
+                    <div class="input-group">
+                        <label>Last Name</label>
+                        <input type="text" id="lastName" placeholder="Type here... ✏️">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 2: CALENDAR FUN -->
+            <div class="section-card">
+                <h2 class="section-title">📅 2. Calendar Fun!</h2>
+                
+                <p style="font-weight: 600; margin-bottom: 10px; font-size: 1.2rem;">Today is...</p>
+                <div class="button-grid day-grid" id="dayContainer" style="grid-template-columns: repeat(5, 1fr); margin-bottom: 20px;">
+                    <button class="selectable-btn" onclick="selectSingle(this)">Monday</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">Tuesday</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">Wednesday</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">Thursday</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">Friday</button>
+                </div>
+
+                <p style="font-weight: 600; margin-bottom: 10px; font-size: 1.2rem;">The month is...</p>
+                <div class="button-grid month-grid" id="monthContainer" style="grid-template-columns: repeat(4, 1fr); gap: 10px;">
+                    <button class="selectable-btn" onclick="selectSingle(this)">January</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">February</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">March</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">April</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">May</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">June</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">July</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">August</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">September</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">October</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">November</button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">December</button>
+                </div>
+
+                <p style="font-weight: 600; margin-top: 20px; margin-bottom: 10px; font-size: 1.2rem;">Write the date:</p>
+                <div class="input-row" style="max-width: 400px;">
+                    <div class="input-group">
+                        <input type="text" id="dateMonth" placeholder="Month" style="text-align: center;">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="dateDay" placeholder="Day" min="1" max="31" style="text-align: center;">
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="dateYear" placeholder="Year" value="2026" style="text-align: center;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: WEATHER -->
+            <div class="section-card">
+                <h2 class="section-title">🌤️ 3. The Weather Is...</h2>
+                <div class="button-grid weather-grid" style="grid-template-columns: repeat(5, 1fr);">
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">☀️</span> Sunny
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">🌤️</span> Partly Sunny
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">☁️</span> Cloudy
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">🌧️</span> Rainy
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">❄️</span> Snowy
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 4: FEELINGS -->
+            <div class="section-card">
+                <h2 class="section-title">🥰 4. Today I Feel...</h2>
+                <div class="button-grid feeling-grid" style="grid-template-columns: repeat(5, 1fr);">
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">😊</span> Happy
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">🙂</span> Okay
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">🙁</span> Sad
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">😠</span> Angry
+                    </button>
+                    <button class="selectable-btn" onclick="selectSingle(this)">
+                        <span class="emoji-large">😴</span> Tired
+                    </button>
+                </div>
+            </div>
+
+            <!-- SECTION 5: SERVICES & THERAPIES -->
+            <div class="section-card">
+                <h2 class="section-title">🏫 5. Services & Therapies I Have Today</h2>
+                
+                <div class="therapy-row">
+                    <div class="therapy-info">
+                        <input type="checkbox" id="checkOT" class="therapy-checkbox">
+                        <span>🧩 OT</span>
+                    </div>
+                    <input type="time" id="timeOT">
+                </div>
+
+                <div class="therapy-row">
+                    <div class="therapy-info">
+                        <input type="checkbox" id="checkPT" class="therapy-checkbox">
+                        <span>🏃 PT</span>
+                    </div>
+                    <input type="time" id="timePT">
+                </div>
+
+                <div class="therapy-row">
+                    <div class="therapy-info">
+                        <input type="checkbox" id="checkSpeech" class="therapy-checkbox">
+                        <span>🗣️ Speech</span>
+                    </div>
+                    <input type="time" id="timeSpeech">
+                </div>
+            </div>
+
+            <!-- SUBMIT CONTAINER -->
+            <div class="submit-container">
+                <button class="finish-btn" onclick="celebrateAndSubmit()">🎉 All Done! 🎉</button>
+            </div>
+        </div>
+
+        <!-- REWARD UNLOCKED: PAINTING SECTION (HIDDEN BY DEFAULT) -->
+        <div class="section-card" id="coloringCard" style="display: none; border-color: var(--secondary-color);">
+            <h2 class="section-title">🎨 Reward Unlocked: Free Paint Time! ✏️</h2>
+            <p style="margin-bottom: 15px; font-weight: 600; font-size: 1.1rem;">Super job completing your sheet! Use your finger or mouse to draw a beautiful picture while your classmates finish up.</p>
+            
+            <div class="paint-toolbar">
+                <!-- Color Choices -->
+                <div class="color-circle active-tool" style="background: #ff4757;" onclick="setPaintColor('#ff4757', this)"></div>
+                <div class="color-circle" style="background: #ff9f43;" onclick="setPaintColor('#ff9f43', this)"></div>
+                <div class="color-circle" style="background: #ffe66d;" onclick="setPaintColor('#ffe66d', this)"></div>
+                <div class="color-circle" style="background: #2ed573;" onclick="setPaintColor('#2ed573', this)"></div>
+                <div class="color-circle" style="background: #1e90ff;" onclick="setPaintColor('#1e90ff', this)"></div>
+                <div class="color-circle" style="background: #a55eea;" onclick="setPaintColor('#a55eea', this)"></div>
+                <div class="color-circle" style="background: #ff6b81;" onclick="setPaintColor('#ff6b81', this)"></div>
+                <div class="color-circle" style="background: #8b4513;" onclick="setPaintColor('#8b4513', this)"></div>
+                <div class="color-circle" style="background: #2f3542;" onclick="setPaintColor('#2f3542', this)"></div>
+                <div class="color-circle" style="background: #ffffff; border: 3px dashed #ced6e0;" onclick="setPaintColor('#ffffff', this)" title="Eraser">🧽</div>
+                
+                <span style="border-left: 2px solid #cbd5e1; height: 25px; margin: 0 8px;"></span>
+
+                <!-- Brush Thickness Options -->
+                <button class="size-btn" onclick="setBrushSize(5, this)">Thin ✏️</button>
+                <button class="size-btn active-tool" onclick="setBrushSize(12, this)">Medium 🖌️</button>
+                <button class="size-btn" onclick="setBrushSize(25, this)">Thick 🖍️</button>
+
+                <span style="border-left: 2px solid #cbd5e1; height: 25px; margin: 0 8px;"></span>
+
+                <!-- Clear Canvas Button -->
+                <button class="size-btn" style="background: #ff4757; color: white; border-color: #ff4757;" onclick="clearCanvas()">Clear Page 🧼</button>
+            </div>
+
+            <div class="paint-canvas-container">
+                <canvas id="paintCanvas"></canvas>
+            </div>
+        </div>
+
     </div>
-  </header>
 
-  <main class="container">
-    <section class="card" id="watch">
-      <div class="focus-box">
-        <h2>Today’s Focus Question</h2>
-        <p>Which story from today’s episode has the greatest impact on people, communities, or the world? Explain why in your summary.</p>
-      </div>
-
-      <div class="main-grid">
-        <div class="panel">
-          <div class="panel-title">Watch Today’s Episode</div>
-          <div class="panel-body">
-            <iframe
-              class="video"
-              src="https://www.youtube.com/embed/videoseries?list=PL0VcM838mafF6X7YR2WI4PwEKmX1Mw_GX"
-              title="World News A to Z Playlist"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen>
-            </iframe>
-            <p class="small">If the video does not load, open the playlist below.</p>
-            <a class="button dark" href="https://www.youtube.com/playlist?list=PL0VcM838mafF6X7YR2WI4PwEKmX1Mw_GX" target="_blank">Open Playlist</a>
-          </div>
+    <!-- TEACHER VIEW TRIGGER -->
+    <div class="teacher-trigger-box">
+        <button class="teacher-toggle-btn" onclick="unlockTeacherDashboard()">🍎 Teacher Review View</button>
+        
+        <div class="teacher-dashboard" id="dashboardSection">
+            <h3>🍎 Morning Submissions Dashboard 
+                <div class="dashboard-actions">
+                    <button class="btn-print" onclick="window.print()">Print Report 🖨️</button>
+                    <button class="btn-clear" onclick="clearSubmissions()">Clear Data 🗑️</button>
+                </div>
+            </h3>
+            <table class="teacher-table">
+                <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Day/Date</th>
+                        <th>Weather</th>
+                        <th>Feeling</th>
+                        <th>Therapies Today</th>
+                    </tr>
+                </thead>
+                <tbody id="dashboardTableBody">
+                    <!-- Data injected here -->
+                </tbody>
+            </table>
         </div>
+    </div>
 
-        <div class="panel">
-          <div class="panel-title">Submit Daily Summary</div>
-          <div class="panel-body">
-            <iframe
-              class="form"
-              src="https://docs.google.com/forms/d/e/1FAIpQLSfBQrR3CvFCOo0lJqCWaVIEc5nQoSf7MYWWSpMoVL2ym3cTww/viewform?embedded=true"
-              title="Daily Summary Google Form">
-              Loading…
-            </iframe>
-            <p class="small">If the form does not load, open it below.</p>
-            <a class="button" href="https://forms.gle/9Mtf7xLYKeqp9ov98" target="_blank">Open Form</a>
-          </div>
+    <!-- SUCCESS POPUP -->
+    <div class="overlay" id="successOverlay">
+        <div class="popup">
+            <h2>Super Job! ⭐</h2>
+            <p>Your Morning Meeting sheet is complete. Ready for some drawing fun?</p>
+            <button class="close-btn" onclick="closePopup()">Let's Draw! 🎨</button>
         </div>
-      </div>
-    </section>
+    </div>
 
-    <section class="card" id="directions">
-      <h2 class="section-title">Summary Directions</h2>
-      <div class="directions">
-        <strong>Choose one story from today’s episode.</strong><br>
-        Write a clear summary that explains the important information from the story. Your response should be accurate, complete, and written in formal academic language.
-      </div>
+    <script>
+        // Form Select Button Handling
+        function selectSingle(button) {
+            const parent = button.parentElement;
+            const buttons = parent.querySelectorAll('.selectable-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+        }
 
-      <h3>Good Summaries Include the 5 Ws</h3>
-      <div class="five-ws">
-        <div>Who</div>
-        <div>What</div>
-        <div>Where</div>
-        <div>When</div>
-        <div>Why</div>
-      </div>
+        // Form Submit & Storage Process
+        function celebrateAndSubmit() {
+            const firstName = document.getElementById('firstName').value.trim() || "Unknown";
+            const lastName = document.getElementById('lastName').value.trim() || "";
+            const fullName = `${firstName} ${lastName}`.trim();
 
-      <h3>Before You Submit</h3>
-      <div class="checklist">
-        <div>✓ I included the 5 Ws.</div>
-        <div>✓ I explained why the story matters.</div>
-        <div>✓ I used complete sentences.</div>
-        <div>✓ I checked spelling and capitalization.</div>
-      </div>
-    </section>
+            const daySelected = document.querySelector('.day-grid .selectable-btn.active')?.innerText || "Not selected";
+            const monthSelected = document.querySelector('.month-grid .selectable-btn.active')?.innerText || "Not selected";
+            
+            const dMonth = document.getElementById('dateMonth').value;
+            const dDay = document.getElementById('dateDay').value;
+            const dYear = document.getElementById('dateYear').value;
+            const writtenDate = (dMonth || dDay) ? `${dMonth}/${dDay}/${dYear}` : "Not written";
 
-    <section class="card">
-      <h2 class="section-title">Model Response</h2>
-      <div class="model">
-        <strong>Example:</strong> One story from today’s episode explained how a government decision affected people in a specific community. The report described who was involved, what happened, where it took place, and why the issue matters. This story is important because it shows how decisions made by leaders can affect everyday life. It connects to Social Studies because we study how citizens, governments, and communities respond to challenges.
-      </div>
-    </section>
+            const weatherSelected = document.querySelector('.weather-grid .selectable-btn.active')?.innerText.replace(/[\n\r]/g, ' ').trim() || "Not selected";
+            const feelingSelected = document.querySelector('.feeling-grid .selectable-btn.active')?.innerText.replace(/[\n\r]/g, ' ').trim() || "Not selected";
 
-    <section class="card">
-      <h2 class="section-title">Rubric /10</h2>
-      <div class="rubric">
-        <div><strong>Accuracy</strong><br>0–3 points<br><span class="small">Information is correct and specific.</span></div>
-        <div><strong>Main Idea</strong><br>0–3 points<br><span class="small">The central idea is clearly explained.</span></div>
-        <div><strong>Connection</strong><br>0–2 points<br><span class="small">Response connects to class content or the real world.</span></div>
-        <div><strong>Writing</strong><br>0–2 points<br><span class="small">Writing is complete, formal, and easy to understand.</span></div>
-      </div>
-    </section>
+            let therapies = [];
+            if (document.getElementById('checkOT').checked) {
+                therapies.push(`OT (${document.getElementById('timeOT').value || 'No time'})`);
+            }
+            if (document.getElementById('checkPT').checked) {
+                therapies.push(`PT (${document.getElementById('timePT').value || 'No time'})`);
+            }
+            if (document.getElementById('checkSpeech').checked) {
+                therapies.push(`Speech (${document.getElementById('timeSpeech').value || 'No time'})`);
+            }
+            const therapyList = therapies.length > 0 ? therapies.join(', ') : "None";
 
-    <section class="card" id="progress">
-      <h2 class="section-title">Weekly Progress Check</h2>
-      <p>Before the week ends, make sure you have completed each daily summary.</p>
-      <div class="progress">
-        <div>Monday</div>
-        <div>Tuesday</div>
-        <div>Wednesday</div>
-        <div>Thursday</div>
-        <div>Friday</div>
-      </div>
-    </section>
+            const newSubmission = {
+                name: fullName,
+                dateInfo: `${daySelected} (${writtenDate})`,
+                weather: weatherSelected,
+                feeling: feelingSelected,
+                therapies: therapyList
+            };
 
-    <section class="card" id="teacher">
-      <h2 class="section-title">Teacher Notes</h2>
-      <p>Student responses save in the Google Sheet connected to the Google Form.</p>
-      <p>To grade weekly: open the Google Form, click <strong>Responses</strong>, open the linked spreadsheet, then add columns for <strong>Score</strong> and <strong>Feedback</strong>.</p>
-    </section>
-  </main>
+            let activeSubmissions = JSON.parse(localStorage.getItem('morningMeetingSubmissions')) || [];
+            activeSubmissions.push(newSubmission);
+            localStorage.setItem('morningMeetingSubmissions', JSON.stringify(activeSubmissions));
+
+            // Confetti Blast
+            var duration = 2.5 * 1000;
+            var end = Date.now() + duration;
+            (function frame() {
+                confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0, y: 0.8 }, colors: ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a55eea'] });
+                confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1, y: 0.8 }, colors: ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a55eea'] });
+                if (Date.now() < end) { requestAnimationFrame(frame); }
+            }());
+
+            // Open Success Popup
+            document.getElementById('successOverlay').style.display = 'flex';
+            
+            // Swap Form Content For Coloring Reward Section
+            document.getElementById('formFields').style.display = 'none';
+            document.getElementById('coloringCard').style.display = 'block';
+            
+            // Activate the Painting Engine Canvas
+            initPaintTool();
+            renderDashboardTable();
+        }
+
+        function closePopup() {
+            document.getElementById('successOverlay').style.display = 'none';
+        }
+
+        // --- PAINT ENGINE CODE ---
+        let canvas, ctx;
+        let isPainting = false;
+        let paintColor = '#ff4757';
+        let brushSize = 12;
+
+        function initPaintTool() {
+            canvas = document.getElementById('paintCanvas');
+            ctx = canvas.getContext('2d');
+            
+            // Dynamically scale canvas matching layout dimensions
+            canvas.width = canvas.parentElement.clientWidth;
+            canvas.height = 400; // Comfortable canvas workspace height for devices
+            
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            // Mouse Listener Map
+            canvas.addEventListener('mousedown', startPaint);
+            canvas.addEventListener('mousemove', paintMove);
+            canvas.addEventListener('mouseup', stopPaint);
+            canvas.addEventListener('mouseleave', stopPaint);
+            
+            // Touch Monitor Listener Map
+            canvas.addEventListener('touchstart', function(e) {
+                startPaint(e.touches[0]);
+            });
+            canvas.addEventListener('touchmove', function(e) {
+                paintMove(e.touches[0]);
+            });
+            canvas.addEventListener('touchend', stopPaint);
+        }
+
+        function getCoordinatePositions(eventObj) {
+            const areaBox = canvas.getBoundingClientRect();
+            return {
+                x: eventObj.clientX - areaBox.left,
+                y: eventObj.clientY - areaBox.top
+            };
+        }
+
+        function startPaint(e) {
+            isPainting = true;
+            const targetPos = getCoordinatePositions(e);
+            ctx.beginPath();
+            ctx.moveTo(targetPos.x, targetPos.y);
+        }
+
+        function paintMove(e) {
+            if (!isPainting) return;
+            const targetPos = getCoordinatePositions(e);
+            ctx.lineWidth = brushSize;
+            ctx.strokeStyle = paintColor;
+            ctx.lineTo(targetPos.x, targetPos.y);
+            ctx.stroke();
+        }
+
+        function stopPaint() {
+            isPainting = false;
+        }
+
+        function setPaintColor(colorHex, elementRef) {
+            paintColor = colorHex;
+            document.querySelectorAll('.color-circle').forEach(circle => circle.classList.remove('active-tool'));
+            elementRef.classList.add('active-tool');
+        }
+
+        function setBrushSize(pixelWidth, elementRef) {
+            brushSize = pixelWidth;
+            document.querySelectorAll('.size-btn').forEach(btn => btn.classList.remove('active-tool'));
+            elementRef.classList.add('active-tool');
+        }
+
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // --- TEACHER REVIEW TOOL CODE ---
+        function unlockTeacherDashboard() {
+            const dashboard = document.getElementById('dashboardSection');
+            if (dashboard.style.display === 'block') {
+                dashboard.style.display = 'none';
+                return;
+            }
+            
+            const password = prompt("Enter Teacher Password to review submissions: (Hint: 1234)");
+            if (password === '1234') {
+                renderDashboardTable();
+                dashboard.style.display = 'block';
+                dashboard.scrollIntoView({ behavior: 'smooth' });
+            } else if (password !== null) {
+                alert("Incorrect password! Try again.");
+            }
+        }
+
+        function renderDashboardTable() {
+            const tableBody = document.getElementById('dashboardTableBody');
+            const submissions = JSON.parse(localStorage.getItem('morningMeetingSubmissions')) || [];
+            
+            if (submissions.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color:#7f8c8d;">No student responses logged yet for today.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = submissions.map(sub => `
+                <tr>
+                    <td><strong>\${sub.name}</strong></td>
+                    <td>\${sub.dateInfo}</td>
+                    <td>\${sub.weather}</td>
+                    <td>\${sub.feeling}</td>
+                    <td>\${sub.therapies}</td>
+                </tr>
+            `).join('');
+        }
+
+        function clearSubmissions() {
+            if (confirm("Are you sure you want to completely clear out all student records for today?")) {
+                localStorage.removeItem('morningMeetingSubmissions');
+                renderDashboardTable();
+            }
+        }
+    </script>
 </body>
 </html>
